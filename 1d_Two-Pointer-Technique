@@ -1,0 +1,42 @@
+Explanation:
+Initialization:
+
+Start with x = 1 (minimum possible value of x) and y = 1000 (maximum possible value of y).
+Two-Pointer Search:
+
+Use the monotonicity properties of f(x, y):
+If f(x, y) < z, increment x to increase the value of f(x, y).
+If f(x, y) > z, decrement y to decrease the value of f(x, y).
+If f(x, y) == z, store the pair (x, y) in the result and adjust
+ both pointers (x++ and y--).
+
+Efficiency:
+
+The two-pointer approach ensures that each x and y are visited at 
+most once, leading to an O(n) complexity where n is the range 
+of x and y.
+
+Output:
+
+The result is a vector of integer pairs representing all 
+valid (x, y) combinations where f(x, y) == z.
+
+Usage Example:
+Assume the custom function f(x, y) is implemented elsewhere:
+
+#include <iostream>
+
+int main() {
+    Solution solution;
+    auto customFunction = [](int x, int y) { return x + y; }; // Example: f(x, y) = x + y
+    int z = 5;
+
+    vector<vector<int>> result = solution.findSolution(customFunction, z);
+
+    // Print the result
+    for (const auto& pair : result) {
+        cout << "[" << pair[0] << ", " << pair[1] << "]" << endl;
+    }
+
+    return 0;
+}
