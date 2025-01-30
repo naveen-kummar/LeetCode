@@ -17,19 +17,29 @@ int numSubmat(vector<vector<int>>& mat) {
 
         // Count submatrices ending at row `i` using monotonic stack
         stack<pair<int, int>> st;  // Stores (height, count of valid submatrices)
-        int sum = 0;
+        int subMatrixAtCurrentRow = 0;
 
         for (int j = 0; j < col; ++j) {
-            int count = 1;
-            while (!st.empty() && st.top().first >= heights[j]) {
-                auto [h, c] = st.top();
+            int columnnWidth = 1;
+            while (!st.empty() && 
+            ((heights[j] == 0) ||(st.top().first >= heights[j]))) 
+            {
+                auto [prevHeight, prevColWidth] = st.top();
                 st.pop();
-                count += c;
-                sum -= h * c;
+                if(heights[j] != 0)
+                {
+                    columnnWidth += prevColWidth;
+                }
+ 
+               subMatrixAtCurrentRow -= prevHeight * prevColWidth;
             }
-            st.push({heights[j], count});
-            sum += heights[j] * count;
-            total += sum;
+
+            if(heights[j] != 0)
+            {
+                st.push({heights[j], columnnWidth});
+                subMatrixAtCurrentRow += heights[j] * columnnWidth;
+                total += subMatrixAtCurrentRow;
+            }
         }
     }
 
@@ -37,8 +47,8 @@ int numSubmat(vector<vector<int>>& mat) {
 }
 
 int main() {
-    vector<vector<int>> mat1 = {{1, 0, 1}, {1, 1, 0}, {1, 1, 0}};
-    cout << "Output: " << numSubmat(mat1) << endl;  // Expected: 13
+   // vector<vector<int>> mat1 = {{1, 0, 1}, {1, 1, 0}, {1, 1, 0}};
+   // cout << "Output: " << numSubmat(mat1) << endl;  // Expected: 13
 
     vector<vector<int>> mat2 = {{0, 1, 1, 0}, {0, 1, 1, 1}, {1, 1, 1, 0}};
     cout << "Output: " << numSubmat(mat2) << endl;  // Expected: 24

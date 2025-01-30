@@ -22,7 +22,7 @@ public:
             maxArea = max(maxArea, heights[i] * (right[i] - left[i] - 1));
         }
         return maxArea;
-    }
+    }   
 
 private:
     void findSmallerLeft(vector<int>& arr) {
