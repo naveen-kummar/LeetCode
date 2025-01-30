@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+vector<string> commonChars(vector<string>& words) {
+    // Initialize the frequency array for the first word
+    vector<int> minFreq(26, INT_MAX);
+
+    // Loop through each word in the list
+    for (const string& word : words) {
+        vector<int> charFreq(26, 0);
+
+        // Count the frequency of each character in the current word
+        for (char c : word) {
+            charFreq[c - 'a']++;
+        }
+
+        // Update the minimum frequency array
+        for (int i = 0; i < 26; i++) {
+            minFreq[i] = min(minFreq[i], charFreq[i]);
+        }
+    }
+
+    // Create the result vector
+    vector<string> result;
+    for (int i = 0; i < 26; i++) {
+        // Add the character to the result as many times as it appears in all words
+        for (int j = 0; j < minFreq[i]; j++) {
+            result.push_back(string(1, 'a' + i));
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    // Example 1
+    vector<string> words1 = {"bella", "label", "roller"};
+    vector<string> result1 = commonChars(words1);
+
+    cout << "Example 1 Output: ";
+    for (const string& c : result1) {
+        cout << c << " ";
+    }
+    cout << endl;
+
+    // Example 2
+    vector<string> words2 = {"cool", "lock", "cook"};
+    vector<string> result2 = commonChars(words2);
+
+    cout << "Example 2 Output: ";
+    for (const string& c : result2) {
+        cout << c << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
